@@ -1,0 +1,227 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+      <div id="propwrap">
+        <div id="properties"  style="border-left:1px solid #eee; padding-right:20px">
+            <div id="close">
+                <img src="assets/close.svg">
+            </div>
+            <p id="header2">Properties</p>
+            <div id="propswitch">
+                <div id="dataprop">Data</div>
+                <div id="alertprop">Alerts</div>
+                <div id="logsprop">Logs</div>
+            </div>
+            <div id="proplist">
+           <form id="propertyForm" class="ui form">
+            <div class="field">
+             <label>Account</label>
+             <div class="two fields">
+                 <div class="field">
+                      <select id="credentialOption" class="ui fluid dropdown">
+                     </select>
+                 </div>
+                 <div class="field">
+                    <button id="btnNewCredModal" class="ui button primary" type="button">Add New</button>
+                 </div>
+             </div>
+            </div>
+            <div class="field">
+             <label>Quary Type</label>
+             <select name="skills" class="ui fluid dropdown">
+                <option value="">Select query type</option>
+                <option value="angular" selected>Custom Query</option>
+                <option value="css">Query Builder</option>
+             </select>
+             </div>
+               <div class="field">
+                <label>SQL Query</label>
+                <textarea id="txtQuery" rows="5" placeholder="select * from table"></textarea>
+              </div>
+              <div class="field">
+                <div class="ui checkbox">
+                  <input type="checkbox" tabindex="0" class="hidden">
+                  <label>I agree to the Terms and Conditions</label>
+                </div>
+              </div>
+              <div class="ui buttons">
+              <button class="ui primary button" type="button" onclick="onSubmitActionQuery()">Submit</button>
+              <div class="or"></div>
+              <button id="btnTestCon" class="ui positive button">Test Connection</button>
+            </div>
+          
+            </form>
+            </div>
+       
+            <div id="divisionthing"></div>
+
+            <div style="background-color:#DB2828; color:#fff" id="removeblock">Clear Nodes</div>
+        </div>
+    </div>
+
+ <div id="canvas">
+ </div>
+
+ <div class="ui modal">
+  <div class="header">Header</div>
+  <div class="content">
+  <form class="ui form">
+  <div class="field">
+    <label>Host</label>
+    <input type="text" id="host" placeholder="">
+  </div>
+   <div class="field">
+    <label>Database</label>
+    <div class="ui input">
+        <input type="text" id="database" placeholder="Database">
+    </div>
+  </div>
+  <div class="field">
+    <label>Username</label>
+    <input type="text" id="username"  placeholder="">
+  </div>
+  <div class="field">
+    <label>Passsword</label>
+    <input type="password" id="password" placeholder="">
+  </div>
+  <div class="field">
+    <label>Port</label>
+    <input type="number" id="port" placeholder="">
+  </div>
+   <div class="field">
+    <label>Description</label>
+    <textarea rows="3" id="description" placeholder=""></textarea>
+  </div>
+    <div class="ui compact message" style="display:none">
+        <p id="errorConMsg"></p>
+    </div>
+   </form>
+  </div>
+  <div class="actions">
+    <div id="btnAddCred" class="ui approve primary button">Connect</div>
+    <div id="btnTstCons" class="ui green button">Test Connection</div>
+  </div>
+</div>
+
+<script>
+$(document).ready(function(){
+    $('select.dropdown').dropdown();
+
+    $('#btnNewCredModal').click(function () {
+        $('.ui.modal').modal('show');
+    });
+
+     $('#btnTstCons').click(function(){
+        var data = {
+              connection_id: Math.random().toString(36).slice(-5),
+              conn_type: "postgres",
+              description: $('#description').val(),
+              host: $('#host').val(),
+              login:  $('#username').val(),
+              schema: $('#database').val(),
+              port:  $('#port').val(),
+              password:$('#password').val(),
+              extra: ""
+            };
+
+        $.ajax({
+            type: 'POST',
+            url: '/Home/TestConnection',
+            data: JSON.stringify(data),
+            contentType: 'application/json',
+            dataType: "JSON",
+            success: function (result) {
+                alert(result);
+                $('#errorConMsg').show();
+                $('#errorConMsg').text(result.message);
+            },
+            error: function () {
+                alert(result);
+                $('#errorConMsg').show();
+                $('#errorConMsg').text(result.message);
+            }
+        })
+    });
+
+    $('#btnAddCred').click(function(){
+        var data = {
+              connection_id: Math.random().toString(36).slice(-5),
+              conn_type: "postgres",
+              description: $('#description').val(),
+              host: $('#host').val(),
+              login:  $('#username').val(),
+              schema: $('#database').val(),
+              port:  $('#port').val(),
+              password:$('#password').val(),
+              extra: ""
+            };
+
+        $.ajax({
+            type: 'POST',
+            url: '/Home/CreateCredential',
+            data: JSON.stringify(data),
+            contentType: 'application/json',
+            dataType: "JSON",
+            success: function (result) {
+                $('#errorConMsg').show();
+                $('#errorConMsg').text(result);
+            },
+            error: function () {
+                $('#errorConMsg').show();
+                $('#errorConMsg').text(result);
+            }
+        })
+    });
+
+     $.ajax({
+            type: 'POST',
+            url: '/Home/GetListCredential',
+            data: null,
+            contentType: 'application/json',
+            dataType: "JSON",
+            success: function (response) {
+                console.log(response.data);
+
+               $('#credentialOption').html('');  
+                var options = '';  
+                options += '<option value="Select">Select..</option>';  
+                $.each(response.data.connections, function( index, value ) {
+                   options += '<option value="' + value.connection_id + '">' + value.host + '</option>';  
+                });
+
+                $('#credentialOption').append(options);  
+            },
+            error: function () {
+                console.log('Failed ');
+            }
+        })
+});
+
+ function onSubmitActionQuery() {
+        var data = {
+            credentialId: $('#credentialOption').find(":selected").val(),
+            nodeId: 'nd_postgre_40',
+            query: $('#txtQuery').val(),
+            nodeDescription: 'fetch data from postgreSQL with specific credentials',
+        };
+
+        $.ajax({
+            type: 'POST',
+            url: '/Home/UploadFile',
+            data: JSON.stringify(data),
+            contentType: 'application/json',
+            dataType: "JSON",
+            success: function (response) {
+                console.log(response.data);
+            },
+            error: function () {
+                console.log('Failed ');
+            }
+        })
+    }
+
+
+
+</script>
+

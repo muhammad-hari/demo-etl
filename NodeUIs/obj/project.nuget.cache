@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "4oscwWUAZMq6xGCikEyR292KVKoziLzaD290LfffIBhcN2EALDoSyV0q+jlnFMa02Yqna7e2Kmu+4wu8xLK3dQ==",
+  "success": true,
+  "projectFilePath": "D:\\Git\\Web\\Angular\\devtools-api\\NodeUI\\NodeUIs\\NodeUIs.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\HariLab\\.nuget\\packages\\restsharp\\108.0.3\\restsharp.108.0.3.nupkg.sha512"
+  ],
+  "logs": []
+}

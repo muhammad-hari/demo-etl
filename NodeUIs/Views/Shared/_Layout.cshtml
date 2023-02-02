@@ -1,0 +1,137 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - NodeUIs</title>
+    @*<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />*@
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/NodeUIs.styles.css" asp-append-version="true" />
+
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,500,700&display=swap" rel="stylesheet">
+    <link href='/styles.css' rel='stylesheet' type='text/css'>
+    <link href='/flowy.min.css' rel='stylesheet' type='text/css'>
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <script src="/flowy.min.js"></script>
+    <script src="/main.js"></script>   
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css">
+<script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>
+
+    
+
+</head>
+<body>
+ <div id="navigation">
+        <div id="leftside">
+            <div id="details">
+            <div id="back"><img src="assets/arrow.svg"></div>
+            <div id="names">
+                <p id="title">Your automation pipeline</p>
+                <p id="subtitle">Marketing automation</p>
+            </div>
+        </div>            
+        </div>
+        <div id="centerswitch">
+            <div id="leftswitch">Diagram view</div>
+            <div id="rightswitch">Code editor</div>
+        </div>
+        <div id="buttonsright">
+            <div id="discard">Discard</div>
+            <div id="publish">Publish to site</div>
+        </div>
+    </div>
+    <div id="leftcard">
+        <div id="closecard">
+            <img src="assets/closeleft.svg">
+        </div>
+        <p id="header">Blocks</p>
+        <div id="search">
+            <img src="assets/search.svg">
+            <input type="text" placeholder="Search blocks">
+        </div>
+        <div id="subnav">
+            <div id="triggers" class="navactive side">Triggers</div>
+            <div id="actions" class="navdisabled side">Actions</div>
+            <div id="loggers" class="navdisabled side">Loggers</div>
+        </div>
+        <div id="blocklist">
+            <div class="blockelem create-flowy noselect">
+                <input type="hidden" name='blockelemtype' class="blockelemtype" value="1">
+                <div class="grabme">
+                    <img src="assets/grabme.svg">
+                </div>
+                <div class="blockin">
+                    <div class="blockico">
+                        <span></span>
+                        <img src="assets/eye.svg">
+                    </div>
+                    <div class="blocktext">
+                        <p class="blocktitle">New visitor</p>
+                        <p class="blockdesc">Triggers when somebody visits a specified page</p>
+                    </div>
+                </div>
+            </div>
+            <div class="blockelem create-flowy noselect">
+                <input type="hidden" name='blockelemtype' class="blockelemtype" value="2">
+                <div class="grabme">
+                    <img src="assets/grabme.svg">
+                </div>
+                <div class="blockin">
+                    <div class="blockico">
+                        <span></span>
+                        <img src="assets/action.svg">
+                    </div>
+                    <div class="blocktext">
+                        <p class="blocktitle">Action is performed</p>
+                        <p class="blockdesc">Triggers when somebody performs a specified action</p>
+                    </div>
+                </div>
+            </div>
+            <div class="blockelem create-flowy noselect">
+                <input type="hidden" name='blockelemtype' class="blockelemtype" value="3">
+                <div class="grabme">
+                    <img src="assets/grabme.svg">
+                </div>
+                <div class="blockin">
+                    <div class="blockico">
+                        <span></span>
+                        <img src="assets/time.svg">
+                    </div>
+                    <div class="blocktext">
+                        <p class="blocktitle">Time has passed</p>
+                        <p class="blockdesc">Triggers after a specified amount of time</p>
+                    </div>
+                </div>
+            </div>
+            <div class="blockelem create-flowy noselect">
+                <input type="hidden" name='blockelemtype' class="blockelemtype" value="4">
+                <div class="grabme">
+                    <img src="assets/grabme.svg">
+                </div>
+                <div class="blockin">
+                    <div class="blockico">
+                        <span></span>
+                        <img src="assets/error.svg">
+                    </div>
+                    <div class="blocktext">
+                        <p class="blocktitle">Error prompt</p>
+                        <p class="blockdesc">Triggers when a specified error happens</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="footer">
+            <a href="https://github.com/alyssaxuu/flowy/" target="_blank">Workflow Engine</a>
+        </div>
+    </div>
+    
+     
+    @RenderBody()
+
+
+   @* <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>*@
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
